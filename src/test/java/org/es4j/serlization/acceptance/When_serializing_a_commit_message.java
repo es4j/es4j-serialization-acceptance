@@ -1,8 +1,69 @@
 package org.es4j.serlization.acceptance;
 
+import java.util.Map.Entry;
+import java.util.UUID;
+import org.es4j.eventstore.api.Commit;
+import org.es4j.serialization.api.ISerialize;
+import org.es4j.serialization.api.SerializationExtensions;
+import org.es4j.util.GenericType;
+import org.junit.Test;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
-public class When_serializing_a_commit_message {
 
+public class When_serializing_a_commit_message extends Using_serialization {
+    
+    protected static final ISerialize serializer = new SerializationFactory().build();
+    
+    static final Commit message = ExtensionMethods.buildCommit(UUID.randomUUID());
+    
+    static byte[] serialized;
+    static Commit deserialized;
+    
+    @Test
+    public void should_deserialize_a_commit_which_contains_the_same_StreamId_as_the_serialized_commit() {
+        
+        // Given
+         ISerialize serializer = new SerializationFactory().build();
+        serialized = SerializationExtensions.serialize(serializer, message);
+        
+        // When
+        deserialized = SerializationExtensions.deserialize(serializer, new GenericType<Commit>(){}, serialized);
+        
+        // Then It should_deserialize_a_commit_which_contains_the_same_StreamId_as_the_serialized_commit = () =>
+        assertThat(deserialized.getStreamId(), is(message.getStreamId()));
+        
+        // Then It should_deserialize_a_commit_which_contains_the_same_CommitId_as_the_serialized_commit = () =>
+        assertThat(deserialized.getCommitId(), is(message.getCommitId()));
+        
+        // Then It should_deserialize_a_commit_which_contains_the_same_StreamRevision_as_the_serialized_commit = () =>
+        assertThat(deserialized.getStreamRevision(), is(message.getStreamRevision()));       
+        
+
+        // Then It should_deserialize_a_commit_which_contains_the_same_CommitSequence_as_the_serialized_commit = () =>
+        assertThat(deserialized.getCommitSequence(), is(message.getCommitSequence()));
+
+        // Then It should_deserialize_a_commit_which_contains_the_same_number_of_headers_as_the_serialized_commit = () =>
+        assertThat(deserialized.getHeaders().size(), is(message.getHeaders().size()));
+
+        // Than It should_deserialize_a_commit_which_contains_the_same_headers_as_the_serialized_commit = () =>
+        {
+            for (Entry<String,Object> entry : deserialized.getHeaders().entrySet()) {
+                assertThat(entry.getValue(), is(message.getHeaders().get(entry.getKey())));
+            }
+
+            assertThat(deserialized.getHeaders().values(), is(message.getHeaders().values()));
+        };
+
+        // Then It should_deserialize_a_commit_which_contains_the_same_number_of_events_as_the_serialized_commit = () =>
+        assertThat(deserialized.getEvents().size(), is(message.getEvents().size()));
+    }
 }
 
 
