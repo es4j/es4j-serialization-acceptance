@@ -17,20 +17,23 @@ import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 
 
-public class When_serializing_a_commit_message extends Using_serialization {
+public class When_serializing_a_commit_message { // extends Using_serialization {
     
-    protected static final ISerialize serializer = new SerializationFactory().build();
-    
-    static final Commit message = ExtensionMethods.buildCommit(UUID.randomUUID());
-    
-    static byte[] serialized;
-    static Commit deserialized;
+    //private final ISerialize serializer = new SerializationFactory().build();
+    //private final Commit message = ExtensionMethods.buildCommit(UUID.randomUUID());
+    //private       byte[] serialized;
+    //private       Commit deserialized;
     
     @Test
     public void should_deserialize_a_commit_which_contains_the_same_StreamId_as_the_serialized_commit() {
         
+        final Commit message = ExtensionMethods.buildCommit(UUID.randomUUID());
+    
+        byte[] serialized;
+        Commit deserialized;
+        
         // Given
-         ISerialize serializer = new SerializationFactory().build();
+        ISerialize serializer = new SerializationFactory().build();
         serialized = SerializationExtensions.serialize(serializer, message);
         
         // When

@@ -1,6 +1,7 @@
 package org.es4j.serlization.acceptance;
 
 import java.util.Arrays;
+import org.es4j.util.CommandLineArguments;
 
 
 public class Launcher {
@@ -9,6 +10,7 @@ public class Launcher {
 
     public void run(String[] args) {
         this.args = args;
+        CommandLineArguments.setArguments(args);
         registerDefaultCommands();
         if (hasNoArguments()) {
             runHelpCommand();

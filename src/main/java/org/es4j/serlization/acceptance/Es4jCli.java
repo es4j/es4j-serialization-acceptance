@@ -1,5 +1,7 @@
 package org.es4j.serlization.acceptance;
 
+import org.es4j.util.CommandLineArguments;
+
 
 
 public class Es4jCli {

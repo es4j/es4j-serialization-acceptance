@@ -30,10 +30,10 @@ public class SimpleMessage implements Serializable {
 				  Arrays.asList( "a", null, "", "d" ));
                                   */
     public SimpleMessage(UUID id, int count, DateTime created, String value, List<String> contents) {
-        this.id = id;
-        this.count = count;
-        this.created = created;
-        this.value = value;
+        this.id       = id;
+        this.count    = count;
+        this.created  = created;
+        this.value    = value;
         this.contents = contents;
     }
 
